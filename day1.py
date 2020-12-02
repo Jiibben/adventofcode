@@ -7,3 +7,4 @@ def find_sum(list_):
             return i * (2020-i)
 
 print(find_sum(lfromfile("input.txt")))
+
