@@ -4,6 +4,7 @@ ex_report = list(map(lambda x: x.replace("\n", ""), d))
 
 c = []
 final = 0
+
 for i in ex_report:
     count, psw = i.split(":")
     range_, letter = count.split(" ")
