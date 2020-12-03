@@ -11,27 +11,30 @@ search = {
 }
 
 
-def move(x, y, map):
+def move(x, y, mape):
     b = 0
     c = 0
 
-    for i in map:
-        if b + x > len(i):
-            b = b - len(i)
-        if map.index(i) % y == 0 and map.index(i) != 0:
-
+    if y == 1:
+        for i in mape:
+            if b + x > len(i):
+                b = b - len(i)
             if i[b] == "#":
                 c += 1
-        b += x
-    return c
+            b += x
+        return c
+    elif y > 1:
+        eny = list(filter(lambda e: mape.index(e) % 2 == 0, mape))
+        for i in eny:
+            if b + x > len(i):
+                b = b - len(i)
+            if i[b] == "#":
+                c += 1
+            b += x
+        return c
 
 
-result = []
+result = 1
 for z, w in zip(search["right"], search["down"]):
-    result.append(move(z, w, a))
-
+    result *= (move(z, w, a))
 print(result)
-mac = 1
-for t in result:
-    mac = t * mac
-print(mac)
