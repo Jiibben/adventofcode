@@ -2,7 +2,7 @@ from itertools import chain
 
 valid = ["byr", "iyr", "eyr", "hgt", " hcl", "ecl", "pid"]
 
-with open("/Users/allanburnier/PycharmProjects/adventofcode/input4.txt", "r") as f:
+with open("/input4.txt", "r") as f:
     a = f.readlines()
 
 m = []
