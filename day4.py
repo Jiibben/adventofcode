@@ -1,18 +1,21 @@
 from itertools import chain
 import re
-with open("input4.txt", "r") as f:
-    a = f.readlines()
 
-passeport_list = []
-c = 0
-d = 0
-for i in a:
-    if i == "\n":
-        passeport_list.append(list(chain.from_iterable(list(map(lambda x: x.replace("\n", "").split(" ") if " " in x else [x.replace("\n", "")], a[d:c])))))
-        d = c + 1
-    c += 1
 
-def remove_invalid(psp_list):
+
+def arrange_list(textfile):
+    a = open(textfile, "r").readlines()
+    passeport_list = []
+    c = 0
+    d = 0
+    for i in a:
+        if i == "\n":
+            passeport_list.append(list(chain.from_iterable(list(map(lambda x: x.replace("\n", "").split(" ") if " " in x else [x.replace("\n", "")], a[d:c])))))
+            d = c + 1
+        c += 1
+    return passeport_list
+
+def checkpsp_field(psp_list):
     for psp in psp_list:
         for element in psp:
             if re.match('^cid\D', element):
@@ -21,8 +24,7 @@ def remove_invalid(psp_list):
 
     return list(filter(lambda x: len(x) ==7, psp_list))
 
-
-passeport_check = remove_invalid(passeport_list)
+passeport_check = checkpsp_field(arrange_list("input4.txt"))
 
 
 def is_psp_valid(psp):
