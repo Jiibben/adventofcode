@@ -1,45 +1,44 @@
-data = [i.split(" ") for i in open("input8test.txt", "r").read().split("\n")]
+data = [i.split(" ") for i in open("input8.txt", "r").read().split("\n")]
 
-print(data)
-
-repeat = True
-add = 0
-o = 0
-
-
-def check_range(add, sign, current, range):
+def check_operator(index_add, sign, current_index, list_):
     if sign == "+":
-        if current + add > range:
-            return current - range + add
+        if (current_index + index_add) in list_:
+            raise ValueError("repeated index:", current_index + index_add)
         else:
-            return add
+            list_.append(current_index+ index_add)
+            return current_index + index_add
     elif sign == "-":
-        return add
+        if (current_index - index_add) in list_:
+            list_.append(current_index - index_add)
+            raise ValueError("repeated index:", current_index - index_add)
+        else:
+            return current_index - index_add
 
-
-while repeat:
-    print(o, add)
+already_checked = list()
+accumulator = 0
+index = 0
+while True:
     try:
-        operation, number = data[o]
-    except:
-        print(data)
+        operation = data[index][0]
+        number = int(data[index][1][1:])
+        sign = data[index][1][0]
+        if operation == "nop":
+            index = check_operator(1, "+", index, already_checked)
+            continue
+        elif operation == "jmp":
+            index = check_operator(number, sign, index, already_checked)
+            continue
+        elif operation == "acc":
+            index = check_operator(1, "+", index,  already_checked)
+            if sign == "-":
+                accumulator -= int(number)
+            elif sign == "+":
+                accumulator += number
+            continue
+        else:
+            raise IndexError("something wrong happend")
+    
+    except ValueError as e:
+        print(e)
+        print(accumulator)
         break
-    if operation == "acc":
-        print("acc")
-        data[o] = ""
-        o += check_range(1,"+", o, len(data))
-        if number[0] == "-":
-            add -= int(number[1:])
-        elif number[0] == "+":
-            add += int(number[1:])
-    elif operation == "jmp":
-        data[o] = ""
-        print("jmp")
-        if number[0] == "-":
-            o -= check_range(int(number[1:]),"+", o, len(data))
-        elif number[0] == "+":
-            o += check_range(int(number[1:]), "-", o, len(data))
-    elif operation == "nop":
-        data[o] = ""
-        print("nop")
-        o += check_range(1, "+", o, len(data))
