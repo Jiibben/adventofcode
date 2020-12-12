@@ -12,7 +12,6 @@ def timer(f):
         return x
     return wrapper
 
-
 @timer
 def part1(data):
     return list(itertools.accumulate(list(map(lambda x: len(set(itertools.chain.from_iterable(x.split("\n")))), data))))[-1]
